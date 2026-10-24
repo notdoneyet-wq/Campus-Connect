@@ -1,0 +1,164 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function userCampusId() {
+      return getUserData().get('campusId', 'campus_demo_default');
+    }
+
+    function isSameCampusDoc(docData) {
+      return docData.get('campusId', 'campus_demo_default') == userCampusId();
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && getUserData().role == 'admin';
+    }
+
+    function isSupervisor() {
+      return isAuthenticated() && (getUserData().role == 'supervisor' || getUserData().role == 'admin');
+    }
+
+    function isStaff() {
+      return isAuthenticated() && (
+        getUserData().role == 'staff' ||
+        getUserData().role == 'supervisor' ||
+        getUserData().role == 'admin'
+      );
+    }
+
+    function staffDepartment() {
+      return getUserData().department;
+    }
+
+    function canAccessDepartment(dept) {
+      return isAdmin() ||
+        (getUserData().role == 'supervisor' && (!('department' in getUserData()) || getUserData().department == dept)) ||
+        (getUserData().role == 'staff' && staffDepartment() == dept);
+    }
+
+    // Campuses collection: Published portals are readable; only authorized campus admins can edit/publish
+    match /campuses/{campusId} {
+      allow read: if resource.data.status == 'published' || (
+        isAuthenticated() && (
+          userCampusId() == campusId ||
+          request.auth.uid in resource.data.get('adminUids', [])
+        )
+      );
+      allow create: if isAuthenticated() && (
+        isAdmin() ||
+        request.auth.uid in request.resource.data.get('adminUids', [])
+      );
+      allow update: if isAuthenticated() && isAdmin() && (
+        userCampusId() == campusId ||
+        request.auth.uid in resource.data.get('adminUids', [])
+      );
+      allow delete: if false;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (
+        request.auth.uid == userId ||
+        (isStaff() && isSameCampusDoc(resource.data))
+      );
+      // Self-registration can create 'student' role or initial 'admin' creator of a new draft campus
+      allow create: if isAuthenticated() && request.auth.uid == userId && (
+        isAdmin() ||
+        (request.resource.data.role == 'student' && !('department' in request.resource.data)) ||
+        (request.resource.data.role == 'admin' && request.resource.data.get('isCampusCreator', false) == true)
+      );
+      // Prevent role or department self-escalation on update
+      allow update: if isAuthenticated() && (
+        (isAdmin() && isSameCampusDoc(resource.data)) ||
+        (request.auth.uid == userId &&
+          request.resource.data.role == resource.data.role &&
+          request.resource.data.get('department', null) == resource.data.get('department', null) &&
+          request.resource.data.get('campusId', 'campus_demo_default') == resource.data.get('campusId', 'campus_demo_default'))
+      );
+      allow delete: if isAdmin() && isSameCampusDoc(resource.data);
+    }
+
+    // Tickets collection: Strict campus + department isolation for staff, ownership isolation for students
+    match /tickets/{ticketId} {
+      allow read: if isAuthenticated() && isSameCampusDoc(resource.data) && (
+        canAccessDepartment(resource.data.departmentId) ||
+        (getUserData().role == 'student' && (
+          resource.data.reporterId == request.auth.uid ||
+          request.auth.uid in resource.data.reporters
+        ))
+      );
+
+      allow create: if isAuthenticated() && isSameCampusDoc(request.resource.data) && (
+        (getUserData().role == 'student' && request.resource.data.reporterId == request.auth.uid) ||
+        isStaff()
+      );
+
+      allow update: if isAuthenticated() && isSameCampusDoc(resource.data) && (
+        canAccessDepartment(resource.data.departmentId) ||
+        // Students can only verify or reopen their own resolved tickets
+        (getUserData().role == 'student' &&
+          (resource.data.reporterId == request.auth.uid || request.auth.uid in resource.data.reporters) &&
+          request.resource.data.departmentId == resource.data.departmentId &&
+          request.resource.data.ticketId == resource.data.ticketId)
+      );
+
+      // Subcollection: events (restricted to users who can access the parent ticket)
+      match /events/{eventId} {
+        allow read: if isAuthenticated() && isSameCampusDoc(get(/databases/$(database)/documents/tickets/$(ticketId)).data) && (
+          canAccessDepartment(get(/databases/$(database)/documents/tickets/$(ticketId)).data.departmentId) ||
+          get(/databases/$(database)/documents/tickets/$(ticketId)).data.reporterId == request.auth.uid ||
+          request.auth.uid in get(/databases/$(database)/documents/tickets/$(ticketId)).data.reporters
+        );
+        allow create: if isAuthenticated();
+      }
+    }
+
+    // Duplicate candidates: Campus & Department-isolated
+    match /duplicateCandidates/{candidateId} {
+      allow read, write: if isStaff() && isSameCampusDoc(resource.data) && (
+        !('departmentId' in resource.data) || canAccessDepartment(resource.data.departmentId)
+      );
+      allow create: if isAuthenticated();
+    }
+
+    // Incidents: Campus & Department-isolated for staff writes
+    match /incidents/{incidentId} {
+      allow read: if isStaff() && isSameCampusDoc(resource.data) && canAccessDepartment(resource.data.category);
+      allow write: if isStaff() && isSameCampusDoc(request.resource.data) && canAccessDepartment(request.resource.data.category);
+    }
+
+    // Notices (localized broadcasts scoped to campus)
+    match /notices/{noticeId} {
+      allow read: if isAuthenticated() && isSameCampusDoc(resource.data);
+      allow create, delete: if isStaff() && isSameCampusDoc(request.resource.data);
+      allow update: if isAuthenticated() && isSameCampusDoc(resource.data);
+    }
+
+    // Escalations: Campus & Department-isolated
+    match /escalations/{escalationId} {
+      allow read: if isStaff() && isSameCampusDoc(resource.data) && (
+        !('departmentId' in resource.data) || canAccessDepartment(resource.data.departmentId)
+      );
+      allow write: if isStaff();
+    }
+
+    // Technicians: Campus & Department-isolated
+    match /technicians/{technicianId} {
+      allow read: if isStaff() && isSameCampusDoc(resource.data) && canAccessDepartment(resource.data.department);
+      allow write: if isStaff() && isSameCampusDoc(request.resource.data) && canAccessDepartment(request.resource.data.department);
+    }
+
+    // Counters
+    match /counters/{counterId} {
+      allow read, write: if isAuthenticated();
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "CampusConnect",
+  "description": "Turn student hostel complaints into trackable, verified action with AI-powered routing, campus blueprint twin, and SLA escalation.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

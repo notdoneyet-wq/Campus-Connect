@@ -1,0 +1,469 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: 'Bricolage Grotesque', 'Noto Sans Devanagari', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-hindi: 'Noto Sans Devanagari', sans-serif;
+
+  /* Coastal Glassmorphism & Teal-Infused Blue Tokens */
+  --color-cc-navy: #0F293A;
+  --color-cc-navy-deep: #0B1924;
+  --color-cc-ocean: #0E7490;
+  --color-cc-steel: #0D9488;
+  --color-cc-beige: #EDF6F9;
+  --color-cc-beige-light: #F5FAFC;
+  --color-cc-beige-elevated: #FFFFFF;
+  --color-cc-beige-well: #E0F2F7;
+}
+
+:root {
+  --cc-surface: #EDF6F9;
+  --cc-card: rgba(255, 255, 255, 0.74);
+  --cc-card-elevated: rgba(255, 255, 255, 0.88);
+  --cc-well: rgba(224, 242, 247, 0.68);
+  --cc-navy: #0F293A;
+  --cc-ocean: #0E7490;
+  --cc-steel: #0D9488;
+  --cc-text: #0F293A;
+  --cc-text-muted: #476778;
+  --cc-border: rgba(14, 116, 144, 0.14);
+
+  /* Translucent Coastal Glass tokens for macOS Dock & shadcn UI */
+  --foreground: #0F293A;
+  --surface: rgba(224, 242, 247, 0.55);
+  --card: rgba(255, 255, 255, 0.58);
+  --card-raised: rgba(240, 249, 255, 0.72);
+  --card-shadow: rgba(14, 116, 144, 0.24);
+}
+
+.dark {
+  --cc-surface: #0B1924;
+  --cc-card: rgba(15, 35, 50, 0.74);
+  --cc-card-elevated: rgba(20, 46, 66, 0.84);
+  --cc-well: rgba(10, 24, 36, 0.68);
+  --cc-navy: #F0F9FF;
+  --cc-ocean: #0891B2;
+  --cc-steel: #14B8A6;
+  --cc-text: #F0F9FF;
+  --cc-text-muted: #94B8CC;
+  --cc-border: rgba(56, 189, 248, 0.16);
+
+  /* Translucent Dark Coastal Glass tokens for macOS Dock & shadcn UI */
+  --foreground: #F0F9FF;
+  --surface: rgba(10, 24, 36, 0.58);
+  --card: rgba(15, 35, 50, 0.62);
+  --card-raised: rgba(20, 46, 66, 0.74);
+  --card-shadow: rgba(0, 0, 0, 0.48);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--cc-surface);
+  color: var(--cc-text);
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+/* Smooth ambient coastal mist radial light backdrop (replaces heavy paper grain) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(13, 148, 136, 0.12) 0%, transparent 42%),
+    radial-gradient(circle at 86% 12%, rgba(14, 165, 233, 0.14) 0%, transparent 46%),
+    radial-gradient(circle at 50% 88%, rgba(8, 145, 178, 0.10) 0%, transparent 50%),
+    linear-gradient(180deg, #F2F9FB 0%, #E6F2F7 100%);
+}
+
+.dark body::before {
+  background:
+    radial-gradient(circle at 15% 18%, rgba(13, 148, 136, 0.16) 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(14, 116, 144, 0.22) 0%, transparent 48%),
+    radial-gradient(circle at 50% 85%, rgba(2, 132, 199, 0.12) 0%, transparent 50%),
+    linear-gradient(180deg, #0B1924 0%, #07121A 100%);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono-tech {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================================
+   SLEEK FROSTED GLASSMORPHISM SURFACES & CLEAN TYPOGRAPHY
+   ============================================================================ */
+
+/* Smooth Coastal Accent Panel / Header Badge (formerly recessed navy well) */
+.relevo-well {
+  background: linear-gradient(135deg, #0E7490 0%, #0D9488 100%);
+  color: #FFFFFF;
+  border-radius: 0.875rem;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  box-shadow: 0 8px 22px -6px rgba(14, 116, 144, 0.24);
+}
+
+.dark .relevo-well {
+  background: linear-gradient(135deg, #0E7490 0%, #0F766E 100%);
+  color: #F0FDFA;
+  border: 1px solid rgba(94, 234, 212, 0.22);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.45);
+}
+
+/* Clean crisp light heading inside coastal accent panel (no 3D text shadow) */
+.emboss-text-light {
+  color: #FFFFFF;
+  text-shadow: none;
+}
+
+/* Clean modern heading on glass/mist surfaces (no engraved shadow) */
+.deboss-heading,
+.emboss-heading-navy {
+  color: #0F293A;
+  text-shadow: none;
+}
+
+.dark .deboss-heading,
+.dark .emboss-heading-navy {
+  color: #F0F9FF;
+  text-shadow: none;
+}
+
+/* Primary Sleek Frosted Glass Panel */
+.tactile-card {
+  background: rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  color: #0F293A;
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  box-shadow:
+    0 1px 2px rgba(14, 116, 144, 0.05),
+    0 12px 32px -8px rgba(14, 116, 144, 0.09);
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.dark .tactile-card {
+  background: rgba(15, 35, 50, 0.74);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  color: #F0F9FF;
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  box-shadow:
+    0 12px 32px -8px rgba(0, 0, 0, 0.45);
+}
+
+/* High-clarity inner glass surface for dense tables, cards, and complaint items */
+.tactile-surface-elevated {
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #0F293A;
+  border: 1px solid rgba(14, 116, 144, 0.14);
+  box-shadow: 0 4px 16px -4px rgba(14, 116, 144, 0.06);
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.dark .tactile-surface-elevated {
+  background: rgba(20, 46, 66, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #F0F9FF;
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.35);
+}
+
+/* Coastal Blue Translucent Feature Card */
+.tactile-card-navy {
+  background: linear-gradient(135deg, rgba(14, 116, 144, 0.92) 0%, rgba(2, 132, 199, 0.88) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 28px -6px rgba(14, 116, 144, 0.22);
+}
+
+/* Coastal Teal Translucent Feature Card */
+.tactile-card-steel {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.90) 0%, rgba(14, 116, 144, 0.90) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 28px -6px rgba(13, 148, 136, 0.20);
+}
+
+/* Smooth Frosted Sub-Panel (for segmented tabs, filter bars, and map frames) */
+.tactile-inset {
+  background: rgba(224, 242, 247, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #0F293A;
+  border: 1px solid rgba(14, 116, 144, 0.14);
+  box-shadow: none;
+}
+
+.dark .tactile-inset {
+  background: rgba(10, 24, 36, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #F0F9FF;
+  border: 1px solid rgba(56, 189, 248, 0.14);
+  box-shadow: none;
+}
+
+/* Smooth Frosted Form Input */
+.tactile-input {
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #0F293A;
+  border: 1px solid rgba(14, 116, 144, 0.22);
+  box-shadow: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.tactile-input::placeholder {
+  color: #648294;
+}
+
+.tactile-input:focus {
+  outline: none;
+  background: #FFFFFF;
+  border-color: #0891B2;
+  box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.16);
+}
+
+.dark .tactile-input {
+  background: rgba(15, 35, 50, 0.85);
+  color: #F0F9FF;
+  border-color: rgba(56, 189, 248, 0.22);
+  box-shadow: none;
+}
+
+.dark .tactile-input::placeholder {
+  color: #7FA3B8;
+}
+
+.dark .tactile-input:focus {
+  background: rgba(19, 44, 62, 0.95);
+  border-color: #22D3EE;
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18);
+}
+
+/* ============================================================================
+   MINIMALIST SOLID BUTTONS WITH CLEAN COLOR-SHIFT TRANSITIONS
+   ============================================================================ */
+
+/* Primary Solid Coastal Blue Button */
+.tactile-btn-primary {
+  background-color: #0E7490;
+  color: #FFFFFF;
+  border: 1px solid transparent;
+  box-shadow: 0 2px 8px rgba(14, 116, 144, 0.16);
+  transition: background-color 150ms cubic-bezier(0.16, 1, 0.3, 1), color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.tactile-btn-primary:hover:not(:disabled) {
+  background-color: #0891B2;
+  box-shadow: 0 4px 14px rgba(8, 145, 178, 0.24);
+}
+
+.tactile-btn-primary:active:not(:disabled) {
+  background-color: #155E75;
+  box-shadow: none;
+}
+
+/* Secondary Minimalist Solid / Frosted Mist Button */
+.tactile-btn-beige {
+  background-color: rgba(255, 255, 255, 0.88);
+  color: #0F293A;
+  border: 1px solid rgba(14, 116, 144, 0.20);
+  box-shadow: 0 1px 3px rgba(14, 116, 144, 0.05);
+  transition: background-color 150ms cubic-bezier(0.16, 1, 0.3, 1), color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.tactile-btn-beige:hover:not(:disabled) {
+  background-color: #E0F2F7;
+  color: #0E7490;
+  border-color: rgba(14, 116, 144, 0.35);
+}
+
+.tactile-btn-beige:active:not(:disabled) {
+  background-color: #CCE9F2;
+}
+
+.dark .tactile-btn-beige {
+  background-color: rgba(20, 46, 66, 0.85);
+  color: #E0F2FE;
+  border-color: rgba(56, 189, 248, 0.20);
+  box-shadow: none;
+}
+
+.dark .tactile-btn-beige:hover:not(:disabled) {
+  background-color: #1A3F5B;
+  color: #38BDF8;
+  border-color: rgba(56, 189, 248, 0.38);
+}
+
+.dark .tactile-btn-beige:active:not(:disabled) {
+  background-color: #132F45;
+}
+
+/* Minimalist Solid Coastal Teal Accent Button */
+.tactile-btn-steel {
+  background-color: #0D9488;
+  color: #FFFFFF;
+  border: 1px solid transparent;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.16);
+  transition: background-color 150ms cubic-bezier(0.16, 1, 0.3, 1), color 150ms ease, box-shadow 150ms ease;
+}
+
+.tactile-btn-steel:hover:not(:disabled) {
+  background-color: #14B8A6;
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.24);
+}
+
+.tactile-btn-steel:active:not(:disabled) {
+  background-color: #0F766E;
+  box-shadow: none;
+}
+
+/* Hairline coastal divider */
+.deboss-divider {
+  height: 1px;
+  background: rgba(14, 116, 144, 0.14);
+  border: none;
+}
+
+.dark .deboss-divider {
+  background: rgba(56, 189, 248, 0.14);
+}
+
+/* ============================================================================
+   COASTAL PALETTE HARMONIZATION FOR UTILITY CLASSES ACROSS ALL VIEWS
+   ============================================================================ */
+
+/* Remap legacy dark navy/beige background utilities to Coastal Blue & Mist */
+.bg-\[\#1D3C50\],
+.bg-\[\#254E68\] {
+  background-color: #0E7490 !important;
+}
+
+.bg-\[\#466981\] {
+  background-color: #0D9488 !important;
+}
+
+.bg-\[\#D3C2B8\] {
+  background-color: #EDF6F9 !important;
+}
+
+.dark .dark\:bg-\[\#132836\] {
+  background-color: #0B1924 !important;
+}
+
+.bg-\[\#E4D7CF\],
+.bg-\[\#E4D7CF\]\/95 {
+  background-color: rgba(255, 255, 255, 0.78) !important;
+  backdrop-filter: blur(16px);
+}
+
+.dark .dark\:bg-\[\#1D3C50\],
+.dark .dark\:bg-\[\#1D3C50\]\/95 {
+  background-color: rgba(15, 35, 50, 0.82) !important;
+  backdrop-filter: blur(16px);
+}
+
+.bg-\[\#EFE7E1\] {
+  background-color: rgba(255, 255, 255, 0.90) !important;
+}
+
+.dark .dark\:bg-\[\#254E68\] {
+  background-color: #0E7490 !important;
+}
+
+/* Remap legacy text utilities to crisp Coastal Slate & Teal-Blue */
+.text-\[\#1D3C50\] {
+  color: #0F293A !important;
+}
+
+.text-\[\#254E68\],
+.text-\[\#466981\] {
+  color: #0E7490 !important;
+}
+
+.text-\[\#EFE7E1\] {
+  color: #FFFFFF !important;
+}
+
+.text-\[\#D3C2B8\] {
+  color: #E0F2FE !important;
+}
+
+.dark .dark\:text-\[\#EFE7E1\] {
+  color: #F0F9FF !important;
+}
+
+.dark .dark\:text-\[\#D3C2B8\],
+.dark .dark\:text-\[\#D3C2B8\]\/80,
+.dark .dark\:text-\[\#D3C2B8\]\/70 {
+  color: #94C6DC !important;
+}
+
+/* Remap legacy border utilities to subtle coastal hairlines */
+.border-\[\#1D3C50\]\/15,
+.border-\[\#1D3C50\]\/20,
+.border-\[\#1D3C50\]\/25,
+.border-\[\#1D3C50\]\/30 {
+  border-color: rgba(14, 116, 144, 0.15) !important;
+}
+
+.border-\[\#254E68\] {
+  border-color: #0891B2 !important;
+}
+
+/* Keyboard accessibility focus states */
+:focus-visible {
+  outline: 2px solid #0891B2;
+  outline-offset: 2px;
+}
+
+.dark :focus-visible {
+  outline: 2px solid #38BDF8;
+  outline-offset: 2px;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Sleek modern scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(14, 116, 144, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(14, 116, 144, 0.32);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(8, 145, 178, 0.55);
+}
