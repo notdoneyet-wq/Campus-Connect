@@ -1,13 +1,16 @@
-<img width="2172" height="724" alt="campusconnect-banner" src="https://github.com/user-attachments/assets/1358a029-d419-4d66-8ca5-aaca58cc0944" />
+
 <div align="center">
 
-![CampusConnect Banner](assets/campusconnect-banner.png)
+<img width="100%" alt="CampusConnect Banner" src="https://github.com/user-attachments/assets/1358a029-d419-4d66-8ca5-aaca58cc0944" />
 
-# CampusConnect
+<h1>CampusConnect</h1>
 
-### Your problem — understood, owned, and actually fixed.
+<h3>Your problem — understood, owned, and actually fixed.</h3>
 
-**An AI-powered campus complaint management platform that transforms everyday hostel issues into structured, trackable, and verified resolutions.**
+<p>An AI-powered campus complaint management platform.</p>
+
+</div>
+
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_CampusConnect-254E68?style=for-the-badge)](https://campusconnect-2225.ai.studio)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
