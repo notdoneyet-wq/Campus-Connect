@@ -12,15 +12,27 @@
 </div>
 
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_CampusConnect-254E68?style=for-the-badge)](https://campusconnect-2225.ai.studio)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
-![Gemini](https://img.shields.io/badge/Google_Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white)
+<div align="center">
 
-**Built by Team Felt-Cute | Equinox AI Hackathon 2026**
+<p align="center">
+  <a href="https://campusconnect-2225.ai.studio">
+    <img src="https://img.shields.io/badge/Live_Demo-Visit_CampusConnect-254E68?style=for-the-badge" alt="Live Demo"/>
+  </a>
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"/>
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase"/>
+  <img src="https://img.shields.io/badge/Google_Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini"/>
+</p>
 
-[Live Application](https://campusconnect-2225.ai.studio) • [Report an Issue](https://campusconnect-2225.ai.studio) • [AI Studio Project](https://ai.studio/apps/10a3bed9-a481-4e69-a7db-fc3da43a4d0d)
+<p align="center">
+  <strong>Built by Team Felt-Cute | Equinox AI Hackathon 2026</strong>
+</p>
+
+<p align="center">
+  <a href="https://campusconnect-2225.ai.studio">Live Application</a> •
+  <a href="https://campusconnect-2225.ai.studio">Report an Issue</a> •
+  <a href="https://ai.studio/apps/10a3bed9-a481-4e69-a7db-fc3da43a4d0d">AI Studio Project</a>
+</p>
 
 </div>
 
