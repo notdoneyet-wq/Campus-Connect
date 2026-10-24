@@ -1,4 +1,4 @@
-
+<img width="2172" height="724" alt="campusconnect-banner" src="https://github.com/user-attachments/assets/1358a029-d419-4d66-8ca5-aaca58cc0944" />
 <div align="center">
 
 ![CampusConnect Banner](assets/campusconnect-banner.png)
