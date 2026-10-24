@@ -610,14 +610,32 @@ CampusConnect aims to create an environment where:
 
 ---
 
+
+---
+
+## 👥 Meet the Team
+
+### Team Felt-Cute | Equinox AI Hackathon 2026
+
+CampusConnect was designed and developed by a team of four developers, combining AI/ML, frontend engineering, backend systems, and full-stack development to build a smarter campus complaint resolution platform.
+
+| Team Member | Role | Key Responsibilities |
+|:---|:---|:---|
+| **Sagar Rai** | Intake Lead & AI/ML Developer | Gemini AI integration, intelligent complaint intake, issue classification, structured ticket generation, and AI-assisted follow-ups. |
+| **Rishi Anand Singh** | Full-Stack Developer & Staff/Tracking Lead | Staff dashboards, ticket lifecycle management, complaint tracking, and frontend-backend integration. |
+| **Shriyash Mishra** | Frontend Developer & Voice/Language Lead | Responsive UI/UX, multilingual interfaces, voice-based complaint reporting, and language support. |
+| **Satyarth Jaiswal** | Backend Developer & Duplicates/Routing Lead | Backend architecture, complaint routing, duplicate detection, department mapping, and ticket processing. |
+
+### Built Together, Built for Impact
+
+From understanding complaints through AI to ensuring they reach the right authority, each team member contributed to making CampusConnect a practical, accessible, and accountable campus maintenance solution.
+
+---
+
 <div align="center">
 
-### CampusConnect
+**CampusConnect — Your problem, understood, owned, and actually fixed.**
 
-**Your problem — understood, owned, and actually fixed.**
-
-Built with purpose by **Team Felt-Cute**.
-
-[Explore CampusConnect](https://campusconnect-2225.ai.studio)
+Made with 💙 by **Team Felt-Cute**
 
 </div>
